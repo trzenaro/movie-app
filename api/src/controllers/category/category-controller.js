@@ -2,6 +2,7 @@ const HttpStatus = require('http-status-codes');
 const _ = require('lodash');
 const { resolveScopedContainerFromRequest } = require('../../config/ioc-container');
 const { CustomError } = require('../../utils/error-types');
+const { getDefaultSearchFromQuery } = require('../helpers/mappers');
 
 const addCategory = async (req, res) => {
   const categoryService = resolveScopedContainerFromRequest(req, 'categoryService');
@@ -18,11 +19,8 @@ const getCategoryById = async (req, res) => {
 
 const getCategories = async (req, res) => {
   const categoryService = resolveScopedContainerFromRequest(req, 'categoryService');
-
-  const filters = {};
-  if (req.query._id) filters._id = req.query._id;
-
-  const categories = await categoryService.getCategories(filters);
+  const query = getDefaultSearchFromQuery(req.query);
+  const categories = await categoryService.getCategories(query);
   res.json(categories);
 };
 

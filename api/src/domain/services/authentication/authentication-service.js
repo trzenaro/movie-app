@@ -12,16 +12,8 @@ class AuthenticationService {
     }
 
     async login(credentials) {
-        const { email, password } = credentials;
-
-        const user = await this._userService.getUserByEmail(email);
-        if (!user) throw new CustomError('INVALID_USER_OR_PASSWORD', `Usuário e/ou senha inválidos`)
-
-        if (bcrypt.compareSync(password, user.password)) {
-            return this.generateToken(user);
-        } else {
-            throw new CustomError('INVALID_USER_OR_PASSWORD', `Usuário e/ou senha inválidos`)
-        }
+        const user = await this._userService.getUserFromCredentials(credentials);
+        return this.generateToken(user);
     }
 
     async generateToken(user) {
@@ -64,6 +56,8 @@ class AuthenticationService {
             user.user = userToken
             user.newToken = newTokens.token;
             user.newRefreshToken = newTokens.refreshToken;
+
+            await TokenModel.deleteOne({ _id: refreshTokenDocument._id });
         }
 
         return user;

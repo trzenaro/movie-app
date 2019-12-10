@@ -11,7 +11,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo-movie-app:/data/db
+      - mongodb-movie-app:/data/db
 
 volumes:
-  mongo-movie-app:
+  mongodb-movie-app:
