@@ -1,0 +1,40 @@
+{
+  "name": "movie-app",
+  "version": "0.0.1",
+  "description": "movie-app",
+  "main": "src/server.js",
+  "scripts": {
+    "production": "node ./src/server.js",
+    "test": "jest \"src/.*\\.test\\.js$\" --coverage",
+    "dev": "nodemon --exec \"node -r dotenv/config src/server.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+http://github.com/trzenaro/movie-app"
+  },
+  "author": "Thiago Zenaro",
+  "license": "MIT",
+  "bugs": {
+    "url": "http://github.com/trzenaro/movie-app/issues"
+  },
+  "homepage": "http://github.com/trzenaro/movie-app#readme",
+  "devDependencies": {
+    "dotenv": "^8.1.0",
+    "nodemon": "^1.19.3"
+  },
+  "dependencies": {
+    "awilix": "^4.2.2",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "http-status-codes": "^1.3.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.7.3",
+    "morgan": "^1.9.1",
+    "redis": "^2.8.0",
+    "swagger-jsdoc": "^3.4.0"
+  }
+}
