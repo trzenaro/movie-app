@@ -1,6 +1,7 @@
 const HttpStatus = require('http-status-codes');
 const { resolveScopedContainerFromRequest } = require('../../config/ioc-container');
 const { CustomError } = require('../../utils/error-types');
+const { getDefaultSearchFromQuery } = require('../helpers/mappers');
 
 const addItem = async (req, res) => {
   const itemService = resolveScopedContainerFromRequest(req, 'itemService');
@@ -17,13 +18,8 @@ const getItemById = async (req, res) => {
 
 const getItems = async (req, res) => {
   const itemService = resolveScopedContainerFromRequest(req, 'itemService');
-
-  const { _id, category } = req.query;
-  const filters = {};
-  if (_id) filters._id = _id;
-  if (category) filters.category = category;
-
-  const items = await itemService.getItems(filters);
+  const query = getDefaultSearchFromQuery(req.query)
+  const items = await itemService.getItems(query);
   res.json(items);
 };
 

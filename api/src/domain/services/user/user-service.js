@@ -2,14 +2,16 @@ const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { UserModel } = require('../../models');
 const { CustomError } = require('../../../utils/error-types');
+const buildPaginatedAndSortedQueryRunner = require('../../../infrastructure/mongodb-query-runner-builder');
 
 class UserService {
     constructor({ cacheService }) {
         this._cacheService = cacheService;
+        this._runPaginatedAndSortedQuery = buildPaginatedAndSortedQueryRunner(UserModel);
     }
 
-    async getUsers(filters) {
-        return UserModel.find({ ...filters });
+    async getUsers({ filters, pagination, assortment }) {
+        return this._runPaginatedAndSortedQuery({ filters, pagination, assortment });
     }
 
     async getUserById(userId) {
@@ -41,6 +43,18 @@ class UserService {
         this._cacheService.delete(`USERS:${_id}`);
         const userUpdated = await UserModel.findOneAndUpdate({ _id }, { $set: userToBeUpdated }, { new: true });
         return userUpdated;
+    }
+
+    async getUserFromCredentials(credentials){
+        const { email, password } = credentials;
+        const user = await this.getUserByEmail(email);
+        if (!user) throw new CustomError('INVALID_CREDENTIALS', `Usuário e/ou senha inválidos`)
+
+        if (bcrypt.compareSync(password, user.password)) {
+            return user;
+        } else {
+            throw new CustomError('INVALID_CREDENTIALS', `Usuário e/ou senha inválidos`)
+        }
     }
 }
 

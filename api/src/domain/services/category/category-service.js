@@ -1,8 +1,13 @@
 const { CategoryModel } = require('../../models');
+const buildPaginatedAndSortedQueryRunner = require('../../../infrastructure/mongodb-query-runner-builder');
 
 class CategoryService {
-    async getCategories(filters) {
-        return CategoryModel.find({ ...filters });
+    constructor() {
+        this._runPaginatedAndSortedQuery = buildPaginatedAndSortedQueryRunner(CategoryModel);
+    }
+
+    async getCategories({ filters, pagination, assortment }) {
+        return await this._runPaginatedAndSortedQuery({ filters, pagination, assortment });
     }
 
     async getCategoryById(categoryId) {

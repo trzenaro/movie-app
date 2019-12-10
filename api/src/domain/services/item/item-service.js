@@ -1,12 +1,13 @@
 const { ItemModel } = require('../../models');
+const buildPaginatedAndSortedQueryRunner = require('../../../infrastructure/mongodb-query-runner-builder');
 
 class ItemService {
-    constructor({ categoryService }) {
-        this._categoryService = categoryService
+    constructor() {
+        this._runPaginatedAndSortedQuery = buildPaginatedAndSortedQueryRunner(ItemModel);
     }
 
-    async getItems(filters) {
-        return ItemModel.find({ ...filters });
+    async getItems({ filters, pagination, assortment }) {
+        return await this._runPaginatedAndSortedQuery({ filters, pagination, assortment });
     }
 
     async getItemById(itemId) {
@@ -15,7 +16,7 @@ class ItemService {
     }
 
     async addItem(itemPayload) {
-        const itemAdded = await ItemModel.create(itemPayload);;
+        const itemAdded = await ItemModel.create(itemPayload);
         return itemAdded;
     }
 
