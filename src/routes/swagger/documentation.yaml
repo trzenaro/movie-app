@@ -1,0 +1,44 @@
+openapi: '3.0.0'
+info:
+  description: 'Documentation of inGaia pipe leads API'
+  version: '1.0.0'
+  title: 'Pipe leads API'
+paths:
+  /:
+    get:
+      summary: 'Get information [name/description/version] about the API'
+      tags:
+        - 'API information'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: 'object'
+                properties:
+                  name:
+                    type: 'string'
+                  description:
+                    type: 'string'
+                  version:
+                    type: 'string'
+
+  /health:
+    get:
+      summary: 'Get an "ok" if the API is online'
+      tags:
+        - 'API information'
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: 'string'
+
+components:
+  responses:
+    Unauthorized:
+      description: 'Unauthorized'
+  schemas:
