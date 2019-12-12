@@ -1,36 +1,39 @@
 <template>
-  <div>
-    <v-card>
-      <v-card-title>
-        Categorias
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="table.search"
-          append-icon="mdi-magnify"
-          label="Pesquisar"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-spacer></v-spacer>
-        <v-btn bottom color="pink" dark fab @click="addCategory">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </v-card-title>
-      <v-data-table
-        dense
-        :loading="table.loading"
-        loading-text="Carregando..."
-        :headers="table.headers"
-        :items="categories"
-        :items-per-page="15"
-        :search="table.search"
-        class="elevation-1"
-      >
-        <template v-slot:item.action="{ item }">
-          <v-icon small class="mr-2" @click="editCategory(item)">mdi-pencil</v-icon>
-        </template>
-      </v-data-table>
-    </v-card>
+  <v-container>
+    <v-data-table
+      dense
+      :loading="table.loading"
+      loading-text="Carregando..."
+      :headers="table.headers"
+      :items="categories"
+      :items-per-page="15"
+      :search="table.search"
+      class="elevation-1"
+    >
+      <template v-slot:top>
+        <v-card>
+          <v-card-title>
+            Categorias
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="table.search"
+              append-icon="mdi-magnify"
+              label="Pesquisar"
+              single-line
+              hide-details
+            ></v-text-field>
+            <v-spacer></v-spacer>
+            <v-btn bottom color="pink" dark fab @click="addCategory">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-card-title>
+        </v-card>
+      </template>
+
+      <template v-slot:item.action="{ item }">
+        <v-icon small class="mr-2" @click="editCategory(item)">mdi-pencil</v-icon>
+      </template>
+    </v-data-table>
 
     <v-dialog v-model="showForm" width="800px">
       <v-card>
@@ -49,7 +52,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script>

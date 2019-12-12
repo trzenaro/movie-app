@@ -14,6 +14,7 @@
       </v-col>
       <v-col class="pt-0 pb-0">
         <v-combobox
+          hide-details
           class="pt-0 pb-0"
           :items="categories"
           item-text="name"
@@ -24,6 +25,9 @@
           :clearable="true"
         ></v-combobox>
       </v-col>
+      <v-btn class="ml-3 mr-3" color="pink" small dark fab @click="addItem">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
     </v-row>
 
     <v-row v-if="this.search.loading" class="justify-center mt-10 mb-10">
@@ -68,7 +72,7 @@ export default {
         page: null,
         currentPage: 1,
         totalPages: 0,
-        perPage: 3,
+        perPage: 8,
         loading: false
       },
       items: [],
@@ -119,7 +123,9 @@ export default {
       } catch (error) {
         this.categories = [];
       }
-    }
+    },
+
+    async addItem() {}
   },
 
   async mounted() {
