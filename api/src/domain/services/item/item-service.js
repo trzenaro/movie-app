@@ -3,7 +3,7 @@ const buildPaginatedAndSortedQueryRunner = require('../../../infrastructure/mong
 
 class ItemService {
     constructor() {
-        this._runPaginatedAndSortedQuery = buildPaginatedAndSortedQueryRunner(ItemModel);
+        this._runPaginatedAndSortedQuery = buildPaginatedAndSortedQueryRunner(ItemModel, { populate: 'category' });
     }
 
     async getItems({ filters, pagination, assortment }) {
