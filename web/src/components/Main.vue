@@ -30,8 +30,8 @@
         </template>
 
         <v-list>
-          <v-list-item v-for="(item, index) in [{title:'Sair'}]" link :key="index" @click="logout">
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item link @click="logout">
+            <v-list-item-title>{{'Sair'}}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -46,18 +46,15 @@
 
 <script>
 export default {
-  props: {
-    source: String
-  },
   methods: {
     logout: function() {
-      this.$router.push("/login");
+      this.$store.dispatch("logout");
     }
   },
   data: () => ({
     drawer: null,
     items: [
-      { icon: "mdi-movie", text: "Itens", link: "/items" },
+      { icon: "mdi-movie", text: "Acervo", link: "/collection" },
       { icon: "mdi-file-document", text: "Categorias", link: "/categories" },
       { icon: "mdi-contacts", text: "Usuários", link: "/users" }
     ]
