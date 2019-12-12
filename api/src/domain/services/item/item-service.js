@@ -7,7 +7,12 @@ class ItemService {
     }
 
     async getItems({ filters, pagination, assortment }) {
-        return await this._runPaginatedAndSortedQuery({ filters, pagination, assortment });
+        let { q: textSearch, ...query } = filters;
+        if (textSearch) {
+            query = { ...query, $text: { $search: textSearch } };
+        }
+
+        return await this._runPaginatedAndSortedQuery({ filters: query, pagination, assortment });
     }
 
     async getItemById(itemId) {
