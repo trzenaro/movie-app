@@ -7,10 +7,11 @@
         label="Pesquisar"
         single-line
         hide-details
+        @keyup.enter="fetchItems"
       ></v-text-field>
     </v-row>
     <v-row>
-      <v-col v-for="item in filteredItems" :key="item._id">
+      <v-col v-for="item in items" :key="item._id">
         <v-card max-width="250px">
           <v-img
             class="white--text align-end"
@@ -21,7 +22,7 @@
           </v-img>
 
           <v-card-text class="text--primary">
-            <div>Categoria: {{item.category}}</div>
+            <div>Categoria: {{item.category.name}}</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -39,27 +40,33 @@ export default {
         text: null,
         category: null
       },
-      items: []
+      items: [],
+      categories: {}
     };
   },
-  computed: {
-    filteredItems() {
-      if (!this.search.text) return this.items;
-      const search = this.search.text.toLowerCase();
-      return this.items.filter(
-        item => item.name.toLowerCase().indexOf(search) > -1
-      );
+  computed: {},
+  methods: {
+    async fetchItems() {
+      try {
+        const { text } = this.search;
+        const filters = {
+          offset: 0,
+          limit: 10
+          //category: "5def923d9804470ff42535ff"
+        };
+        if (text) {
+          filters.name = text;
+        }
+        const response = await axios.get("/items", { params: filters });
+        this.items = response.data.results;
+      } catch (error) {
+        this.items = [];
+      }
     }
   },
-  methods: {},
 
   async mounted() {
-    try {
-      const response = await axios.get("/items");
-      this.items = response.data.results;
-    } catch (error) {
-      this.items = [];
-    }
+    this.fetchItems();
   }
 };
 </script>
