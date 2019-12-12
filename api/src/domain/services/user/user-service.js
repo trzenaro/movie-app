@@ -39,13 +39,13 @@ class UserService {
     }
 
     async updateUser(userPayload) {
-        const { _id, password, email, ...userToBeUpdated } = userPayload;
+        const { _id, password, ...userToBeUpdated } = userPayload;
         this._cacheService.delete(`USERS:${_id}`);
         const userUpdated = await UserModel.findOneAndUpdate({ _id }, { $set: userToBeUpdated }, { new: true });
         return userUpdated;
     }
 
-    async getUserFromCredentials(credentials){
+    async getUserFromCredentials(credentials) {
         const { email, password } = credentials;
         const user = await this.getUserByEmail(email);
         if (!user) throw new CustomError('INVALID_CREDENTIALS', `Usuário e/ou senha inválidos`)

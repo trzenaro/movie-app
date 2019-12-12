@@ -27,7 +27,7 @@ class AuthenticationService {
             TokenModel.insertMany([tokenDocument, refreshTokenDocument]),
             this._cacheService.set(`TOKENS:${token}`, tokenDocument.toObject(), jwtConfig.secretExpires)
         ]);
-        return { token, refreshToken: refreshToken };
+        return { token, refreshToken };
     }
 
     async getUserFromToken(token, refreshToken) {
@@ -47,17 +47,14 @@ class AuthenticationService {
             const refreshJwtUser = jwt.verify(refreshToken, jwtConfig.refreshSecretKey);
             const refreshTokenDocument = await TokenModel.findOne({ type: 'REFRESH_TOKEN', value: refreshToken });
 
-            if (refreshJwtUser._id !== refreshTokenDocument.user.toString()) throw new CustomError('INVALID_REFRESH_TOKEN', 'Invalid refresh token');
+            if (!refreshTokenDocument || refreshTokenDocument.user.toString() !== refreshJwtUser._id) throw new CustomError('INVALID_REFRESH_TOKEN', 'Invalid refresh token');
 
             const userToken = await this._userService.getUserById(refreshTokenDocument.user);
             const newTokens = await this.generateToken(userToken);
-            jwt.verify(newTokens.token, jwtConfig.secretKey);
 
             user.user = userToken
             user.newToken = newTokens.token;
             user.newRefreshToken = newTokens.refreshToken;
-
-            await TokenModel.deleteOne({ _id: refreshTokenDocument._id });
         }
 
         return user;
