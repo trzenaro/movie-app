@@ -38,7 +38,41 @@ paths:
             text/plain:
               schema:
                 type: 'string'
-                
+
+##############################################################
+##############################################################
+
+  /auth/login:
+    post:
+      summary: 'Log in to the system'
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: 'Returns token and refresh token'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  refreshToken:
+                    type: string
+        400:
+          $ref: '#/components/responses/BadRequest'
+
 ##############################################################
 ##############################################################
 
@@ -47,9 +81,13 @@ paths:
       summary: 'Get a list of registered items'
       tags:
         - Item
+      security: 
+        - bearerAuth: []
       parameters:
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
         - name: category
           in: query
           schema:
@@ -73,6 +111,9 @@ paths:
       summary: 'Add an item'
       tags:
         - Item
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
       requestBody:
         required: true
         content:
@@ -99,6 +140,8 @@ paths:
       tags:
         - Item
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
         - name: itemId
           in: path
           required: true
@@ -119,6 +162,8 @@ paths:
       tags:
         - Item
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
         - name: itemId
           in: path
           required: true
@@ -162,6 +207,8 @@ paths:
       tags:
         - Category
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
       responses:
@@ -177,6 +224,9 @@ paths:
       summary: 'Add a category'
       tags:
         - Category
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
       requestBody:
         required: true
         content:
@@ -202,6 +252,8 @@ paths:
       tags:
         - Category
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
         - name: categoryId
           in: path
           required: true
@@ -222,6 +274,8 @@ paths:
       tags:
         - Category
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
         - name: categoryId
           in: path
           required: true
@@ -261,6 +315,8 @@ paths:
       tags:
         - User
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
       responses:
@@ -276,6 +332,9 @@ paths:
       summary: 'Add an user'
       tags:
         - User
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
       requestBody:
         required: true
         content:
@@ -301,6 +360,8 @@ paths:
       tags:
         - User
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
         - name: userId
           in: path
           required: true
@@ -321,6 +382,8 @@ paths:
       tags:
         - User
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/refreshToken'
         - name: userId
           in: path
           required: true
@@ -457,3 +520,15 @@ components:
       schema:
         type: integer
       description: Number of items to skip before returning the values
+    token:
+      in: header
+      name: token
+      schema:
+        type: string
+      description: Token
+    refreshToken:
+      in: header
+      name: refresh-token
+      schema:
+        type: string
+      description: Refresh Token
