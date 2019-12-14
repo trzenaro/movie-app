@@ -16,7 +16,7 @@
             />
             <v-text-field
               id="password"
-              label="Password"
+              label="Senha"
               name="password"
               prepend-icon="mdi-lock"
               type="password"
@@ -38,8 +38,8 @@
 export default {
   data: function() {
     return {
-      email: "admin@movieapp.com",
-      password: "admin"
+      email: null,
+      password: null
     };
   },
   methods: {
@@ -48,7 +48,7 @@ export default {
       try {
         await this.$store.dispatch("login", credentials);
       } catch (error) {
-        this.$toast.error(error.message);
+        if (error.message) this.$toast.error(error.message);
       }
     }
   }

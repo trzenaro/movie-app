@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const { UserModel } = require('../../models');
 const { CustomError } = require('../../../utils/error-types');
 const buildPaginatedAndSortedQueryRunner = require('../../../infrastructure/mongodb-query-runner-builder');
@@ -70,11 +70,11 @@ class UserService {
   }
 
   _encryptPassword(password) {
-    return bcrypt.hashSync(password, 10);
+    return bcryptjs.hashSync(password, 10);
   }
 
   _comparePassword(password, checkPassword) {
-    return bcrypt.compareSync(password, checkPassword);
+    return bcryptjs.compareSync(password, checkPassword);
   }
 }
 

@@ -37,7 +37,7 @@
 
     <v-dialog v-model="showForm" width="500px">
       <v-card>
-        <v-card-title class="grey lighten-1">Cadastrar categoria</v-card-title>
+        <v-card-title class="grey lighten-1">Cadastro de categoria</v-card-title>
         <div class="flex-column">
           <v-col>
             <v-text-field placeholder="Nome" v-model="form.name" hide-details></v-text-field>
@@ -79,7 +79,6 @@ export default {
   },
   methods: {
     async submitForm() {
-      debugger;
       const { name } = this.form;
       const payload = { name };
 
@@ -94,14 +93,13 @@ export default {
           response = await axios.post("/categories", payload);
         }
 
-        debugger;
         const { status, data } = response;
         if (![200, 201].includes(status)) throw new Error(data.message);
 
         this.showForm = false;
         this.refreshTable();
       } catch (error) {
-        this.$toast.error(error.message);
+        if (error.message) this.$toast.error(error.message);
       }
     },
 

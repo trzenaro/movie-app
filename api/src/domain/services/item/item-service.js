@@ -10,8 +10,6 @@ class ItemService {
   }
 
   async getItems({ filters, pagination, assortment }) {
-    //if (Math.random() > 0.5) throw new Error('ferrou');
-
     let { q: textSearch, ...query } = filters;
     if (textSearch) {
       query = { ...query, $text: { $search: textSearch } };
