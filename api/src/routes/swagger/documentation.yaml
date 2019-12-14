@@ -522,7 +522,7 @@ components:
       description: Number of items to skip before returning the values
     token:
       in: header
-      name: token
+      name: Authorization
       schema:
         type: string
       description: Token
