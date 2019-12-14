@@ -23,4 +23,4 @@ This project is divided in two smaller projects which can be executed independen
 [/api](/api) is the REST API built in Node.JS \
 [/web](/web) is the web interface built in Vue.js
 
-Go into the folders and checkout their README know how to run and use each project
+Go into the folders and checkout their README to know how to run and use each project
