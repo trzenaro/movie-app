@@ -7,17 +7,17 @@ const swaggerDefinition = {
   components: {},
   info: {
     title: 'movie-app',
-    version: '0.0.1',
+    version: '1.0.0',
     description: 'movie-app',
   },
-  host: 'localhost:5000',
+  host: '',
   basePath: '/',
   openapi: '3.0.0',
 };
 
 const options = {
   swaggerDefinition,
-  apis: [`${__dirname}/swagger/documentation.yaml`],
+  apis: [`${__dirname}/documentation.yaml`],
 };
 const swaggerSpec = swaggerJSDoc(options);
 
@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
         </style>
       </head>
       <body>
-        <redoc spec-url='./swagger/swagger.json'></redoc>
+        <redoc spec-url='./docs/swagger.json'></redoc>
         <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"> </script>
       </body>
     </html>
@@ -55,6 +55,6 @@ router.get('/', (req, res) => {
 });
 
 module.exports = {
-  path: '/swagger',
+  path: '/docs',
   router,
 };
