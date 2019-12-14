@@ -9,7 +9,6 @@
           label="Pesquisar"
           single-line
           hide-details
-          @keyup.enter="applyFilters"
           @change="applyFilters"
         ></v-text-field>
       </v-col>
@@ -114,7 +113,8 @@ export default {
         currentPage: 1,
         totalPages: null,
         perPage: 8,
-        loading: false
+        loading: false,
+        lastQuery: null
       },
       showForm: false,
       form: {
@@ -127,7 +127,7 @@ export default {
     };
   },
   methods: {
-    async fetchItems() {
+    async fetchItems({ forceReload } = {}) {
       try {
         const { text, category } = this.search;
         const query = {
@@ -136,6 +136,13 @@ export default {
         };
         if (text) query.q = text;
         if (category) query.category = category._id;
+
+        if (
+          JSON.stringify(this.search.lastQuery) == JSON.stringify(query) &&
+          !forceReload
+        )
+          return; // prevent executing the same query more than once
+        this.search.lastQuery = query;
 
         this.search.loading = true;
 
@@ -146,12 +153,13 @@ export default {
         this.search.totalPages = Math.ceil(data.total / this.search.perPage);
       } catch (error) {
         this.items = [];
-        this.$toast.error(error.message);
+        if (error.message) this.$toast.error(error.message);
       }
       this.search.loading = false;
     },
 
     async applyFilters() {
+      console.log(arguments, new Date(), "called");
       this.search.currentPage = 1;
       this.fetchItems();
     },
@@ -163,7 +171,7 @@ export default {
         this.categories = data.results;
       } catch (error) {
         this.categories = [];
-        this.$toast.error(error.message);
+        if (error.message) this.$toast.error(error.message);
       }
     },
 
@@ -182,9 +190,9 @@ export default {
 
         if (![200, 201].includes(status)) throw new Error(data.message);
         this.showForm = false;
-        this.fetchItems();
+        this.fetchItems({ forceReload: true });
       } catch (error) {
-        this.$toast.error(error.message);
+        if (error.message) this.$toast.error(error.message);
       }
     },
 

@@ -36,13 +36,23 @@
 
     <v-dialog v-model="showForm" width="500px">
       <v-card>
-        <v-card-title class="grey lighten-1">Cadastrar usuário</v-card-title>
+        <v-card-title class="grey lighten-1">Cadastro de usuário</v-card-title>
         <div class="flex-column">
           <v-col>
-            <v-text-field prepend-icon="mdi-account" placeholder="Nome" v-model="form.name" hide-details></v-text-field>
+            <v-text-field
+              prepend-icon="mdi-account"
+              placeholder="Nome"
+              v-model="form.name"
+              hide-details
+            ></v-text-field>
           </v-col>
           <v-col>
-            <v-text-field prepend-icon="mdi-email" placeholder="Email" v-model="form.email" hide-details></v-text-field>
+            <v-text-field
+              prepend-icon="mdi-email"
+              placeholder="Email"
+              v-model="form.email"
+              hide-details
+            ></v-text-field>
           </v-col>
           <v-col>
             <v-text-field
@@ -117,7 +127,7 @@ export default {
       this.action = "edit";
       this.showForm = true;
       this.editingUser = user;
-      this.form = user;
+      this.form = JSON.parse(JSON.stringify(user));
     },
 
     clearForm() {

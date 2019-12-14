@@ -1,0 +1,18 @@
+{
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "extends": "airbnb-base",
+  "rules": {
+    "no-console": "off",
+    "max-len": [2, 200, 2],
+    "object-property-newline": "off",
+    "object-curly-newline": "off",
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "prefer-const": "warn",
+    "no-param-reassign": "warn",
+    "eqeqeq": "off"
+  }
+}
