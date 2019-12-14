@@ -23,7 +23,7 @@
               hide-details
             ></v-text-field>
             <v-spacer></v-spacer>
-            <v-btn bottom color="pink" dark fab @click="addCategory">
+            <v-btn small bottom color="pink" dark fab @click="addCategory">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-card-title>
@@ -35,16 +35,14 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="showForm" width="800px">
+    <v-dialog v-model="showForm" width="500px">
       <v-card>
         <v-card-title class="grey lighten-1">Cadastrar categoria</v-card-title>
-        <v-container grid-list-sm>
-          <v-layout row wrap>
-            <v-flex xs12>
-              <v-text-field prepend-icon="mdi-file-document" placeholder="Nome" v-model="form.name"></v-text-field>
-            </v-flex>
-          </v-layout>
-        </v-container>
+        <div class="flex-column">
+          <v-col>
+            <v-text-field placeholder="Nome" v-model="form.name" hide-details></v-text-field>
+          </v-col>
+        </div>
         <v-card-actions>
           <v-spacer />
           <v-btn text @click="showForm = false">Cancelar</v-btn>
@@ -81,34 +79,42 @@ export default {
   },
   methods: {
     async submitForm() {
-      const { name, email, password } = this.form;
-      const payload = { name, email, password };
+      debugger;
+      const { name } = this.form;
+      const payload = { name };
 
       try {
-        if (this.action === "new") {
-          await axios.post("/categories", payload);
-        } else if (this.action === "edit") {
-          await axios.put(`/categories/${this.editingCategory._id}`, payload);
+        let response;
+        if (this.editingCategory) {
+          response = await axios.put(
+            `/categories/${this.editingCategory._id}`,
+            payload
+          );
+        } else {
+          response = await axios.post("/categories", payload);
         }
+
+        debugger;
+        const { status, data } = response;
+        if (![200, 201].includes(status)) throw new Error(data.message);
 
         this.showForm = false;
         this.refreshTable();
       } catch (error) {
-        console.error(error);
+        this.$toast.error(error.message);
       }
     },
 
     addCategory() {
       this.clearForm();
+      this.editingCategory = null;
       this.showForm = true;
-      this.action = "create";
     },
 
     editCategory(category) {
-      this.action = "edit";
       this.showForm = true;
       this.editingCategory = category;
-      this.form = category;
+      this.form = JSON.parse(JSON.stringify(category));
     },
 
     clearForm() {

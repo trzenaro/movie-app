@@ -5,9 +5,9 @@ const ItemService = require('./item/item-service');
 const UserService = require('./user/user-service');
 
 module.exports = {
-    AuthenticationService,
-    CacheService,
-    CategoryService,
-    ItemService,
-    UserService
-}
+  AuthenticationService,
+  CacheService,
+  CategoryService,
+  ItemService,
+  UserService,
+};

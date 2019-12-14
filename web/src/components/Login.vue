@@ -27,7 +27,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="primary" @click="login({email,password})">Login</v-btn>
+          <v-btn color="primary" @click="login()">Login</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -35,9 +35,6 @@
 </template>
 
 <script>
-//import axios from "axios";
-//import { mapActions } from "vuex";
-
 export default {
   data: function() {
     return {
@@ -46,8 +43,13 @@ export default {
     };
   },
   methods: {
-    async login(credentials) {
-      this.$store.dispatch("login", credentials);
+    async login() {
+      const credentials = { email: this.email, password: this.password };
+      try {
+        await this.$store.dispatch("login", credentials);
+      } catch (error) {
+        this.$toast.error(error.message);
+      }
     }
   }
 };

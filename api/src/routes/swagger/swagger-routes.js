@@ -56,5 +56,5 @@ router.get('/', (req, res) => {
 
 module.exports = {
   path: '/swagger',
-  router
+  router,
 };

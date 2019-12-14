@@ -9,5 +9,5 @@ module.exports = {
   categoryController,
   homeController,
   itemController,
-  userController
-}
+  userController,
+};

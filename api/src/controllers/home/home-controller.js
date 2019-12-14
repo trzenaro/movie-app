@@ -4,15 +4,15 @@ const getApiInformation = (req, res) => {
   res.json({
     name: packageConfig.name,
     description: packageConfig.description,
-    version: packageConfig.version
+    version: packageConfig.version,
   });
 };
 
 const getHealth = (req, res) => {
-  res.send('ok')
+  res.send('ok');
 };
 
 module.exports = {
   getApiInformation,
-  getHealth
+  getHealth,
 };

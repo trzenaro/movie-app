@@ -6,10 +6,10 @@ const swaggerRoutes = require('./swagger/swagger-routes');
 const userRoutes = require('./user/user-routes');
 
 module.exports = [
-    authenticationRoutes,
-    categoryRoutes,
-    homeRoutes,
-    itemRoutes,
-    swaggerRoutes,
-    userRoutes
+  authenticationRoutes,
+  categoryRoutes,
+  homeRoutes,
+  itemRoutes,
+  swaggerRoutes,
+  userRoutes,
 ];

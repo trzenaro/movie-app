@@ -1,6 +1,7 @@
 const express = require('express');
 const { categoryController } = require('../../controllers');
 const { authentication } = require('../../middlewares');
+
 const router = express.Router();
 
 router.use(authentication);
@@ -10,6 +11,6 @@ router.post('/', categoryController.addCategory);
 router.put('/:categoryId', categoryController.updateCategoryById);
 
 module.exports = {
-    path: '/categories',
-    router
+  path: '/categories',
+  router,
 };

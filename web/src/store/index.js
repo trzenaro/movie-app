@@ -34,12 +34,12 @@ export default new Vuex.Store({
   actions: {
     async login({ commit }, payload) {
       const { email, password } = payload;
-      try {
-        const { data } = await axios.post('/auth/login', qs.stringify({ email, password }));
+      const { status, data } = await axios.post('/auth/login', qs.stringify({ email, password }));
+      if (status == 200) {
         commit('updateTokens', data);
         router.push("/collection");
-      } catch (error) {
-        console.error(error);
+      } else {
+        throw new Error(data.message);
       }
     },
 
@@ -47,6 +47,5 @@ export default new Vuex.Store({
       commit('clearTokens');
       router.push("/login");
     }
-
-  }
+  },
 })

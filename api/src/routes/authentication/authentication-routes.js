@@ -6,6 +6,6 @@ const router = express.Router();
 router.post('/login', authenticationController.login);
 
 module.exports = {
-    path: '/auth',
-    router
+  path: '/auth',
+  router,
 };
