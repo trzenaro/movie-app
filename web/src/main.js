@@ -13,17 +13,22 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-axios.interceptors.response.use((response) => {
+const handleRefreshToken = (response) => {
   const token = response.headers.token;
   const refreshToken = response.headers['refresh-token'];
   if (token && refreshToken) {
     store.commit('updateTokens', { token, refreshToken })
   }
   return response;
-}, (error) => {
+}
+
+axios.interceptors.response.use(handleRefreshToken, (error) => {
+  if (!error.response || error.response.status >= 500) throw new Error("Falha ao se comunicar com o servidor");
+  handleRefreshToken(error.response);
   if (error.response.status === 401) {
     store.dispatch('logout');
   }
+  return error.response;
 });
 
 Vue.config.productionTip = false

@@ -1,53 +1,58 @@
 <template>
-  <div>
-    <v-card>
-      <v-card-title>
-        Usuários
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="table.search"
-          append-icon="mdi-magnify"
-          label="Pesquisar"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-spacer></v-spacer>
-        <v-btn bottom color="pink" dark fab @click="addUser">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </v-card-title>
-      <v-data-table
-        dense
-        :loading="table.loading"
-        loading-text="Carregando"
-        :headers="table.headers"
-        :items="users"
-        :items-per-page="15"
-        :search="table.search"
-        class="elevation-1"
-      >
-        <template v-slot:item.action="{ item }">
-          <v-icon small class="mr-2" @click="editUser(item)">mdi-pencil</v-icon>
-        </template>
-      </v-data-table>
-    </v-card>
+  <v-container>
+    <v-data-table
+      dense
+      :loading="table.loading"
+      loading-text="Carregando"
+      :headers="table.headers"
+      :items="users"
+      :items-per-page="15"
+      :search="table.search"
+      class="elevation-1"
+    >
+      <template v-slot:top>
+        <v-card>
+          <v-card-title>
+            Usuários
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="table.search"
+              append-icon="mdi-magnify"
+              label="Pesquisar"
+              single-line
+              hide-details
+            ></v-text-field>
+            <v-spacer></v-spacer>
+            <v-btn small bottom color="pink" dark fab @click="addUser">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-card-title>
+        </v-card>
+      </template>
+      <template v-slot:item.action="{ item }">
+        <v-icon small class="mr-2" @click="editUser(item)">mdi-pencil</v-icon>
+      </template>
+    </v-data-table>
 
-    <v-dialog v-model="showForm" width="800px">
+    <v-dialog v-model="showForm" width="500px">
       <v-card>
         <v-card-title class="grey lighten-1">Cadastrar usuário</v-card-title>
-        <v-container grid-list-sm>
-          <v-layout row wrap>
-            <v-flex xs12>
-              <v-text-field prepend-icon="mdi-account" placeholder="Nome" v-model="form.name"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field prepend-icon="mdi-email" placeholder="Email" v-model="form.email"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field prepend-icon="mdi-lock" placeholder="Senha" v-model="form.password"></v-text-field>
-            </v-flex>
-          </v-layout>
-        </v-container>
+        <div class="flex-column">
+          <v-col>
+            <v-text-field prepend-icon="mdi-account" placeholder="Nome" v-model="form.name" hide-details></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field prepend-icon="mdi-email" placeholder="Email" v-model="form.email" hide-details></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              prepend-icon="mdi-lock"
+              placeholder="Senha"
+              v-model="form.password"
+              type="password"
+            ></v-text-field>
+          </v-col>
+        </div>
         <v-card-actions>
           <v-spacer />
           <v-btn text @click="showForm = false">Cancelar</v-btn>
@@ -55,7 +60,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script>

@@ -7,6 +7,6 @@ router.get('/', homeController.getApiInformation);
 router.get('/health', homeController.getHealth);
 
 module.exports = {
-    path: '/',
-    router
+  path: '/',
+  router,
 };

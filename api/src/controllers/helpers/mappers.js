@@ -8,16 +8,16 @@ const getDefaultSearchFromQuery = (query) => {
   const assortment = {};
   if (sortBy) {
     assortment.sortBy = sortOrder;
-    assortment.sortOrder = sortOrder == 'desc' ? -1 : 1;
+    assortment.sortOrder = sortOrder === 'desc' ? -1 : 1;
   }
 
   return {
     pagination,
     assortment,
-    filters
-  }
-}
+    filters,
+  };
+};
 
 module.exports = {
-  getDefaultSearchFromQuery
+  getDefaultSearchFromQuery,
 };

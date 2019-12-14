@@ -1,6 +1,7 @@
 const express = require('express');
 const { userController } = require('../../controllers');
 const { authentication } = require('../../middlewares');
+
 const router = express.Router();
 
 router.use(authentication);
@@ -10,6 +11,6 @@ router.post('/', userController.addUser);
 router.put('/:userId', userController.updateUserById);
 
 module.exports = {
-    path: '/users',
-    router
+  path: '/users',
+  router,
 };
